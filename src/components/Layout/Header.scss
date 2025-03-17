@@ -1,0 +1,37 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 05px 05px;
+    background-color: #628dba;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    &__logo {
+      display: flex;
+      align-items: center;
+  
+      img {
+        height: 50px;
+      }
+    }
+    .title{
+      font-size: 50px;
+    }
+  
+    &__nav {
+      display: flex;
+      gap: 1.5rem;
+  
+      a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s ease;
+  
+        &:hover {
+          color: #007bff;
+        }
+      }
+    }
+  }
+  

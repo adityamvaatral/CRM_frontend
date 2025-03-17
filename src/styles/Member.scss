@@ -1,0 +1,37 @@
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+  
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  // **Save Button**
+  .save-button {
+    background-color: #28a745; // Green
+    color: white;
+  }
+  
+  // **Toggle Schemes Button**
+  .toggle-schemes-button {
+    background-color: #007bff; // Blue
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  // **Add & Delete Buttons**
+  button:nth-child(1) { // Add Button
+    background-color: #17a2b8; // Cyan
+    color: white;
+  }
+  
+  button:nth-child(2) { // Delete Button
+    background-color: #dc3545; // Red
+    color: white;
+  }
+  

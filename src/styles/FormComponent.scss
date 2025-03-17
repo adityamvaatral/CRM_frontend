@@ -1,0 +1,23 @@
+.form-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  
+    select, button {
+      border: 2px solid black;
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      min-width: 150px;
+    }
+  
+    button {
+      min-width: 80px;
+    }
+  }
+  

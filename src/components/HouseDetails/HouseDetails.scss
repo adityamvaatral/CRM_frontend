@@ -1,0 +1,119 @@
+
+.house-details {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  h2 {
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .dependents-selection {
+    margin-bottom: 15px;
+    label {
+      margin-right: 10px;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+
+  .save-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+}
+.dependents-selection {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+
+  label {
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  input {
+    margin-right: 5px;
+  }
+}
+
+.dependent-row {
+  background-color: #f8f9fa; // Light gray background for dependents
+  &:hover {
+    background-color: #e2e6ea; // Slightly darker hover effect
+  }
+}
+
+
+
+
+
+.add-button, .delete-button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  min-width: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Add Button Style
+.add-button {
+  background-color: #17a2b8; // Cyan color
+  color: white;
+}
+
+// Delete Button Style
+.delete-button {
+  background-color: #dc3545; // Red color
+  color: white;
+}

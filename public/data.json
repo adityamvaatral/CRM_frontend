@@ -1,0 +1,26 @@
+{
+    "assemblies": ["Assembly 1", "Assembly 2", "Assembly 3"],
+    "wards": ["Ward 101", "Ward 102", "Ward 103"],
+    "booths": {
+      "Assembly 1": ["Booth A1", "Booth A2"],
+      "Assembly 2": ["Booth B1", "Booth B2"],
+      "Assembly 3": ["Booth C1", "Booth C2"]
+    },
+    "streets": {
+      "Booth A1": ["Street 1A", "Street 2A"],
+      "Booth A2": ["Street 3A", "Street 4A"],
+      "Booth B1": ["Street 1B", "Street 2B"],
+      "Booth B2": ["Street 3B", "Street 4B"],
+      "Booth C1": ["Street 1C", "Street 2C"],
+      "Booth C2": ["Street 3C", "Street 4C"]
+    },
+    "houses": {
+      "Street 1A": ["House 101A", "House 102A"],
+      "Street 2A": ["House 103A", "House 104A"],
+      "Street 1B": ["House 101B", "House 102B"],
+      "Street 2B": ["House 103B", "House 104B"],
+      "Street 1C": ["House 101C", "House 102C"],
+      "Street 2C": ["House 103C", "House 104C"]
+    }
+  }
+  
