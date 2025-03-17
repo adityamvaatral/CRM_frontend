@@ -1,11 +1,9 @@
-//Working 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/SelectionForm.scss"
+import "../styles/SelectionForm.scss";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Layout/Header";
-import HouseDetails from "../components/HouseDetails/HouseDetails";
+import AlertReuse from "../components/common/AlertReuse";
 
 const SelectionForm = () => {
   const [assemblies, setAssemblies] = useState([]);
@@ -14,17 +12,20 @@ const SelectionForm = () => {
   const [streets, setStreets] = useState([]);
   const [houses, setHouses] = useState([]);
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("error");
+
   const [assembly, setAssembly] = useState("");
   const [ward, setWard] = useState("");
   const [booth, setBooth] = useState("");
   const [streetNo, setStreetNo] = useState("");
   const [houseNo, setHouseNo] = useState("");
 
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchselection = async () => {
+    const fetchSelection = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/selection");
         setAssemblies([...new Set(res.data.map((item) => item.assembly))]);
@@ -32,7 +33,7 @@ const SelectionForm = () => {
         console.error("Error fetching selection data:", error);
       }
     };
-    fetchselection();
+    fetchSelection();
   }, []);
 
   useEffect(() => {
@@ -75,72 +76,77 @@ const SelectionForm = () => {
     e.preventDefault();
 
     if (!assembly || !ward || !booth || !streetNo || !houseNo) {
-      alert("All fields are required");
+      setAlertMessage("All fields are required");
+      setAlertSeverity("error");
+      setAlertOpen(true);
       return;
     }
 
     try {
       await axios.post("http://localhost:5000/api/selection", { assembly, ward, booth, streetNo, houseNo });
-      alert("House Selection Saved");
-      console.log("houseNo",houseNo)
-      // Navigate to HouseDetails with houseNo
-      navigate("/assembly", { state: { houseNo } });
-     
+      setAlertMessage("House Number Saved");
+      setAlertSeverity("success");
+      setAlertOpen(true);
+
+      // Navigate after a slight delay to allow alert visibility
+      setTimeout(() => navigate("/assembly", { state: { houseNo } }), 1000);
     } catch (error) {
-      console.error("Error saving selection:", error);
-      alert("Failed to save selection");
+      console.error("Error saving house Number:", error);
+      setAlertMessage("Failed to save house Number");
+      setAlertSeverity("error");
+      setAlertOpen(true);
     }
   };
 
   return (
     <>
-    <Header/>
-    <div className="selection-form">
-      <h2>New Registration</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Assembly No:</label>
-        <select value={assembly} onChange={(e) => setAssembly(e.target.value)} required>
-          <option value="">Select Assembly</option>
-          {assemblies.map((item, index) => (
-            <option key={index} value={item}>{item}</option>
-          ))}
-        </select>
+      <Header />
+      <div className="selection-form">
+        <h2>New Registration</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Assembly No:</label>
+          <select value={assembly} onChange={(e) => setAssembly(e.target.value)} required>
+            <option value="">Select Assembly</option>
+            {assemblies.map((item, index) => (
+              <option key={index} value={item}>{item}</option>
+            ))}
+          </select>
 
-        <label>Ward No:</label>
-        <select value={ward} onChange={(e) => setWard(e.target.value)} required disabled={!assembly}>
-          <option value="">Select Ward</option>
-          {wards.map((item, index) => (
-            <option key={index} value={item}>{item}</option>
-          ))}
-        </select>
+          <label>Ward No:</label>
+          <select value={ward} onChange={(e) => setWard(e.target.value)} required disabled={!assembly}>
+            <option value="">Select Ward</option>
+            {wards.map((item, index) => (
+              <option key={index} value={item}>{item}</option>
+            ))}
+          </select>
 
-        <label>Booth No:</label>
-        <select value={booth} onChange={(e) => setBooth(e.target.value)} required disabled={!ward}>
-          <option value="">Select Booth</option>
-          {booths.map((item, index) => (
-            <option key={index} value={item}>{item}</option>
-          ))}
-        </select>
+          <label>Booth No:</label>
+          <select value={booth} onChange={(e) => setBooth(e.target.value)} required disabled={!ward}>
+            <option value="">Select Booth</option>
+            {booths.map((item, index) => (
+              <option key={index} value={item}>{item}</option>
+            ))}
+          </select>
 
-        <label>Street No:</label>
-        <select value={streetNo} onChange={(e) => setStreetNo(e.target.value)} required disabled={!booth}>
-          <option value="">Select Street</option>
-          {streets.map((item, index) => (
-            <option key={index} value={item}>{item}</option>
-          ))}
-        </select>
+          <label>Street No:</label>
+          <select value={streetNo} onChange={(e) => setStreetNo(e.target.value)} required disabled={!booth}>
+            <option value="">Select Street</option>
+            {streets.map((item, index) => (
+              <option key={index} value={item}>{item}</option>
+            ))}
+          </select>
 
-        <label>House No:</label>
-        <input type="text" value={houseNo} onChange={(e) => setHouseNo(e.target.value)} required disabled={!streetNo} />
+          <label>House No:</label>
+          <input type="text" value={houseNo} onChange={(e) => setHouseNo(e.target.value)} required disabled={!streetNo} />
 
-        <button type="submit">Okay</button>
-      </form>
-      
-    </div>
+          <button type="submit">Okay</button>
+        </form>
+      </div>
+
+      {/* Alert Message */}
+      <AlertReuse open={alertOpen} handleClose={() => setAlertOpen(false)} severity={alertSeverity} message={alertMessage} />
     </>
   );
 };
 
 export default SelectionForm;
-
-

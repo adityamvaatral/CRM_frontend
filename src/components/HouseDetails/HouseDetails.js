@@ -1,12 +1,15 @@
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "../HouseDetails/HouseDetails.scss";
 import SelectDependents from "../HouseDetails/SelectDependents";
 import MemberForm from "../HouseDetails/MemberForm";
-// import Header from "../Layout/Header";
+import Header from "../Layout/Header";
+
+import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+
 
 const HouseDetails = () => {
   const location = useLocation();
@@ -19,6 +22,10 @@ const HouseDetails = () => {
   const [spouse, setSpouse] = useState({ relation: "Spouse", name: "", age: "" });
   const [father, setFather] = useState({ relation: "Father", name: "", age: "" });
   const [mother, setMother] = useState({ relation: "Mother", name: "", age: "" });
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("");
 
   // Common lists for hobbies and activities
   const hobbiesList = ["Reading", "Sports", "Music", "Dancing", "Painting"];
@@ -60,9 +67,14 @@ const HouseDetails = () => {
     try {
       const members = [head, spouse, father, mother, ...dependents];
       await axios.post("http://localhost:5000/api/houses", { houseNo, members });
-      alert("House details saved successfully!");
+      setAlertMessage("House details saved successfully!");
+      setAlertSeverity("success");
+      setAlertOpen(true);
     } catch (error) {
       console.error("Error saving house details:", error);
+      setAlertMessage("Error saving house details. Please try again!");
+      setAlertSeverity("error");
+      setAlertOpen(true);
     }
   };
 
@@ -71,9 +83,15 @@ const HouseDetails = () => {
   //   navigate(`/schemes/${houseNo}`);
   // };
 
+  //Activity
+
+  
+
   return (
+    
     <>
-    {/* <Header/> */}
+   
+    <Header/>
     <div className="house-details">
       <h2>House No - {houseNo}</h2>
 
@@ -131,6 +149,20 @@ const HouseDetails = () => {
         {/* <button className="view-schemes-button" onClick={() => navigate(`/schemes/${houseNo}`)}>
         View Schemes
       </button> */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert sx={{
+    fontSize: "1.2rem",  // Increase text size
+    padding: "20px",     // Increase padding
+    width: "400px"       // Increase width
+  }} onClose={() => setAlertOpen(false)} severity={alertSeverity} variant="filled">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
       </div>
     </div>
     </>

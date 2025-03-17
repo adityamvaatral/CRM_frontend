@@ -5,7 +5,7 @@ import HouseDetails from "./components/HouseDetails/HouseDetails";
 import SelectionForm from "./pages/SelectionForm";
 import Login from "./pages/Login";
 import FormComponent from "./pages/FormCompnent";
-import FamilyDetails from "./pages/FamilyDetails";
+import FamilyDetails from "../src/components/DisplayData/FamilyDetails";
 // import GuaranteeSchemes from "../src/components/Schemes/GuaranteeSchemes";
 
 function App() {
