@@ -1,0 +1,75 @@
+$primary-color: #007bff;
+$table-header-bg: #007bff;
+$table-header-text: white;
+$border-color: #ddd;
+$input-border: #ccc;
+
+.house-selection {
+  padding: 20px;
+
+  h2 {
+    color: $primary-color;
+    font-size: 24px;
+  }
+
+  label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  select {
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+    th {
+      background-color: $table-header-bg;
+      color: $table-header-text;
+      padding: 10px;
+      border: 1px solid $border-color;
+      text-align: left;
+    }
+
+    td {
+      padding: 8px;
+      border: 1px solid $border-color;
+      
+      input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid $input-border;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .total-members {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .select-dependents {
+    margin-bottom: 15px;
+
+    button {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin-right: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
