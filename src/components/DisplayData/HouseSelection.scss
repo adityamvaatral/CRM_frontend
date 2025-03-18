@@ -1,9 +1,9 @@
-
 $primary-color: #007bff;
 $table-header-bg: #007bff;
 $table-header-text: white;
 $border-color: #ddd;
 $input-border: #ccc;
+$transition-speed: 0.3s;
 
 .house-selection {
   padding: 30px;
@@ -16,7 +16,6 @@ $input-border: #ccc;
   label {
     font-weight: bold;
     font-size: 24px;
-    // margin-right: 15px;
   }
 
   select {
@@ -76,10 +75,63 @@ $input-border: #ccc;
       border-radius: 6px;
       font-size: 18px;
       cursor: pointer;
+      transition: background-color $transition-speed ease-in-out;
 
       &:hover {
         background-color: darken($primary-color, 10%);
       }
     }
+  }
+
+  // Toggle button styling
+  .toggle-btn {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color $transition-speed ease-in-out;
+    margin-top: 20px;
+    
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  // Toggle content animation
+  .toggle-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height $transition-speed ease-in-out, opacity $transition-speed ease-in-out;
+    opacity: 0;
+  }
+
+  .toggle-content.show {
+    max-height: 500px; // Adjust as needed
+    opacity: 1;
+  }
+}
+
+.toggle-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 }

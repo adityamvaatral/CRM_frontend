@@ -3,8 +3,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 05px 05px;
-    background-color: #628dba;
+    background-color:#00008B;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 80px;
     
     &__logo {
       display: flex;
@@ -12,10 +13,13 @@
   
       img {
         height: 50px;
+        padding: 20px;
+       
       }
     }
     .title{
       font-size: 50px;
+      color: #fcfcfc;
     }
   
     &__nav {
@@ -24,7 +28,7 @@
   
       a {
         text-decoration: none;
-        color: #333;
+        color: #fcfcfc;
         font-weight: 500;
         transition: color 0.3s ease;
   

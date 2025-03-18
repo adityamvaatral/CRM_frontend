@@ -1,10 +1,10 @@
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../DisplayData/HouseSelection.scss";
 import Header from "../Layout/Header";
 import { Snackbar, Alert } from "@mui/material";
+import GuranteeSchemes from "./GuaranteeSchemes";
 
 const HouseSelection = () => {
   const [assemblies, setAssemblies] = useState([]);
@@ -14,6 +14,7 @@ const HouseSelection = () => {
   const [houses, setHouses] = useState([]);
   const [members, setMembers] = useState([]);
   const [selectedHouse, setSelectedHouse] = useState("");
+  const [showDetails, setShowDetails] = useState(false); // Toggle state
 
   const [filters, setFilters] = useState({
     assembly: "",
@@ -83,7 +84,8 @@ const HouseSelection = () => {
   const handleHouseChange = (e) => {
     const houseNo = e.target.value;
     setSelectedHouse(houseNo);
-    setAlertOpen(true); // Show alert
+    setAlertOpen(true);
+    setShowDetails(false); // Reset the form when selecting a new house
 
     axios
       .get(`http://localhost:5000/api/houses/${houseNo}`)
@@ -148,6 +150,9 @@ const HouseSelection = () => {
           </select>
         </div>
 
+        
+
+        {/* Members Table */}
         <h3>Members</h3>
         <table border="1">
           <thead>
@@ -183,25 +188,32 @@ const HouseSelection = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Snackbar Notification */}
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          onClose={() => setAlertOpen(false)}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert onClose={() => setAlertOpen(false)} severity="success" variant="filled">
+            Selected House No: {selectedHouse}
+          </Alert>
+        </Snackbar>
+        
       </div>
+      {/* Toggle Button for House Details Form */}
+      {/* <button  className="toggle-btn" onClick={() => setShowDetails((prev) => !prev)} disabled={!selectedHouse}>
+          {showDetails ? "Hide Schemes" : "Show Schemes"}
+        </button> */}
 
-      {/* Alert Snackbar */}
-      <Snackbar
-  open={alertOpen}
-  autoHideDuration={3000}
-  onClose={() => setAlertOpen(false)}
-  anchorOrigin={{ vertical: "top", horizontal: "right" }} // Adjusted position to top-center
->
-  <Alert 
-    onClose={() => setAlertOpen(false)} 
-    severity="success" 
-    variant="filled"
-    sx={{ fontSize: "1.5rem", padding: "20px 30px", minWidth: "300px" }} // Increased size
-  >
-    Selected House No: {selectedHouse}
-  </Alert>
-</Snackbar>
+<button className="toggle-btn" onClick={() => setShowDetails(!showDetails)} disabled={!selectedHouse}>
+  {showDetails ? "Hide Schemes" : "Show Schemes"}
+</button>
 
+
+        {/* Conditionally Render House Details Form */}
+        {showDetails && <GuranteeSchemes houseNo={selectedHouse} />}
     </>
   );
 };
