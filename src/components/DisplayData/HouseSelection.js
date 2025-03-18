@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../DisplayData/HouseSelection.scss";
+import Header from "../Layout/Header";
 
 const HouseSelection = () => {
   const [assemblies, setAssemblies] = useState([]);
@@ -102,8 +103,10 @@ const HouseSelection = () => {
   };
 
   return (
+    <>
+    <Header/>
     <div className="house-selection">
-      <h2>House Selection</h2>
+      <h2>House Details</h2>
 
       <div>
         <label>Assembly:</label>
@@ -159,9 +162,10 @@ const HouseSelection = () => {
             <th>Voter ID</th>
             <th>Email</th>
             <th>Phone Number</th>
-            <th>Occupation</th>
+            <th>Occupation & Details</th>
             <th>Hobbies</th>
             <th>Activity</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -176,13 +180,17 @@ const HouseSelection = () => {
               <td><input type="text" value={member.email} readOnly /></td>
               <td><input type="text" value={member.phoneNumber} readOnly /></td>
               <td><input type="text" value={member.occupation} readOnly /></td>
+              {/* <td><input type="text" value={`${member.occupation} - ${member.occupationDetails}`} readOnly /></td> */}
+
               <td><input type="text" value={member.hobbies} readOnly /></td>
               <td><input type="text" value={member.activity} readOnly /></td>
+              
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 

@@ -34,7 +34,7 @@ const Login = () => {
       localStorage.setItem("token", "dummyToken"); // Fake token storage
       // alert("Login Successful!");
       
-      navigate("/formcomponent"); // Redirect to FormComponent
+      navigate("/register"); // Redirect to FormComponent
     } else {
       setError("Invalid email or password");
     }

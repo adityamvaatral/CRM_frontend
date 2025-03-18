@@ -15,7 +15,8 @@ function MainRouter() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/display" element={<HouseSelection />} />
-        <Route path="/formcomponent" element={<FormComponent />} />
+        {/* <Route path="/formcomponent" element={<FormComponent />} /> */}
+        
         <Route path="/register" element={<SelectionForm />} />
         <Route path="/assembly" element={<HouseDetails />} />
         {/* <Route path="/schemes/:houseNo" element={<GuaranteeSchemes />} /> New Route */}
