@@ -1,0 +1,55 @@
+.house-details-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+  h2 {
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 18px;
+
+    th, td {
+      border: 2px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+      font-size: 20px;
+    }
+
+    td {
+      input[type="checkbox"] {
+        width: 20px;  // Medium size width
+        height: 20px; // Medium size height
+        cursor: pointer;
+      }
+    }
+  }
+
+  .submit-btn {
+    margin-top: 15px;
+    padding: 10px 15px;
+    font-size: 18px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#28a745, 10%);
+    }
+  }
+}
