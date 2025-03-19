@@ -1,41 +1,88 @@
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 05px 05px;
-    background-color:#00008B;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: 80px;
+// .header {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     padding: 05px 05px;
+//     background-color:#00008B;
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//     height: 80px;
     
-    &__logo {
+//     &__logo {
+//       display: flex;
+//       align-items: center;
+  
+//       img {
+//         height: 50px;
+//         padding: 50px;
+       
+//       }
+//     }
+//     .title{
+//       font-size: 50px;
+//       color: #fcfcfc;
+//     }
+  
+//     &__nav {
+//       display: flex;
+//       gap: 1.5rem;
+  
+//       a {
+//         text-decoration: none;
+//         color: #fcfcfc;
+//         font-weight: 500;
+//         transition: color 0.3s ease;
+  
+//         &:hover {
+//           color: #007bff;
+//         }
+//       }
+//     }
+//   }
+  
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center; // Centers everything
+  padding: 5px 5px;
+  background-color: #00008B;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  position: relative; // Allows absolute positioning inside
+
+  &__logo {
       display: flex;
       align-items: center;
-  
+      position: absolute;
+      left: 20px; // Keeps logo on the left
+
       img {
-        height: 50px;
-        padding: 20px;
-       
+          height: 50px;
+          padding: 10px;
       }
-    }
-    .title{
+  }
+
+  .title {
       font-size: 50px;
       color: #fcfcfc;
-    }
-  
-    &__nav {
+      text-align: center;
+      flex: 1; // Makes title take available space, keeping it centered
+  }
+
+  &__nav {
       display: flex;
       gap: 1.5rem;
-  
+      position: absolute;
+      right: 20px; // Keeps nav links on the right
+
       a {
-        text-decoration: none;
-        color: #fcfcfc;
-        font-weight: 500;
-        transition: color 0.3s ease;
-  
-        &:hover {
-          color: #007bff;
-        }
+          text-decoration: none;
+          color: #fcfcfc;
+          font-weight: 500;
+          transition: color 0.3s ease;
+
+          &:hover {
+              color: #007bff;
+          }
       }
-    }
   }
-  
+}

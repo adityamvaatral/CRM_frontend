@@ -93,7 +93,7 @@ const SelectionForm = () => {
       setAlertOpen(true);
 
       // Navigate after a slight delay to allow alert visibility
-      setTimeout(() => navigate("/assembly", { state: { houseNo } }), 1000);
+      setTimeout(() => navigate("/housedetails", { state: { houseNo } }), 1000);
     } catch (error) {
       console.error("Error saving house Number:", error);
       setAlertMessage("Failed to save house Number");

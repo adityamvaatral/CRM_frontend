@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../DisplayData/HouseSelection.scss";
@@ -14,7 +15,8 @@ const HouseSelection = () => {
   const [houses, setHouses] = useState([]);
   const [members, setMembers] = useState([]);
   const [selectedHouse, setSelectedHouse] = useState("");
-  const [showDetails, setShowDetails] = useState(false); // Toggle state
+  const [showDetails, setShowDetails] = useState(false);
+  const [selectedSchemes, setSelectedSchemes] = useState([]);
 
   const [filters, setFilters] = useState({
     assembly: "",
@@ -24,6 +26,7 @@ const HouseSelection = () => {
   });
 
   const [alertOpen, setAlertOpen] = useState(false);
+  const [saveAlert, setSaveAlert] = useState(false);
 
   useEffect(() => {
     axios
@@ -85,12 +88,32 @@ const HouseSelection = () => {
     const houseNo = e.target.value;
     setSelectedHouse(houseNo);
     setAlertOpen(true);
-    setShowDetails(false); // Reset the form when selecting a new house
+    setShowDetails(false);
 
     axios
       .get(`http://localhost:5000/api/houses/${houseNo}`)
-      .then((response) => setMembers(response.data.members))
+      .then((response) => {
+        setMembers(response.data.members);
+        const schemes = response.data.members.flatMap((member) => member.selectedSchemes || []);
+        setSelectedSchemes([...new Set(schemes)]);
+      })
       .catch((error) => console.error("Error fetching house details:", error));
+  };
+
+  const handleMemberChange = (index, field, value) => {
+    setMembers((prevMembers) =>
+      prevMembers.map((member, i) =>
+        i === index ? { ...member, [field]: value } : member
+      )
+    );
+  };
+  
+
+  const saveMemberData = () => {
+    axios
+      .post("http://localhost:5000/api/houses", { houseNo: selectedHouse, members })
+      .then(() => setSaveAlert(true))
+      .catch((error) => console.error("Error updating members:", error));
   };
 
   return (
@@ -150,70 +173,131 @@ const HouseSelection = () => {
           </select>
         </div>
 
-        
-
-        {/* Members Table */}
         <h3>Members</h3>
         <table border="1">
           <thead>
             <tr>
               <th>Relation</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Aadhar Card No.</th>
-              <th>BPL Card No.</th>
-              <th>Voter ID</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>Occupation & Details</th>
-              <th>Hobbies</th>
-              <th>Activity</th>
+            <th>Name</th>
+               <th>Age</th>
+               <th>Aadhar Card No.</th>
+               <th>BPL Card No.</th>
+               <th>Voter ID</th>
+               <th>Email</th>
+               <th>Phone Number</th>
+               <th>Occupation & Details</th>
+               <th>Hobbies</th>
+               <th>Activity</th>
             </tr>
           </thead>
           <tbody>
             {members.map((member, index) => (
               <tr key={index}>
                 <td>{member.relation}</td>
-                <td>{member.name}</td>
-                <td>{member.age}</td>
-                <td>{member.aadharCardNo}</td>
-                <td>{member.bplCardNo}</td>
-                <td>{member.voterId}</td>
-                <td>{member.email}</td>
-                <td>{member.phoneNumber}</td>
-                <td>{member.occupation}</td>
-                <td>{member.hobbies}</td>
-                <td>{member.activity}</td>
+                <td>
+  <input 
+    type="text" 
+    value={member.name || ""} 
+    onChange={(e) => handleMemberChange(index, "name", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="number" 
+    value={member.age || ""} 
+    onChange={(e) => handleMemberChange(index, "age", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="text" 
+    value={member.aadhar || ""} 
+    onChange={(e) => handleMemberChange(index, "aadhar", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="text" 
+    value={member.bpl || ""} 
+    onChange={(e) => handleMemberChange(index, "bpl", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="text" 
+    value={member.voterId || ""} 
+    onChange={(e) => handleMemberChange(index, "voterId", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="email" 
+    value={member.email || ""} 
+    onChange={(e) => handleMemberChange(index, "email", e.target.value)} 
+  />
+</td>
+<td>
+  <input 
+    type="tel" 
+    value={member.phone || ""} 
+    onChange={(e) => handleMemberChange(index, "phone", e.target.value)} 
+  />
+</td>
+<td>
+  {/* <input 
+    type="text" 
+    value={member.occupation || ""} 
+    onChange={(e) => handleMemberChange(index, "occupation", e.target.value)} 
+  /> */}
+  <input 
+  type="text" 
+  value={member.occupation || ""} 
+  onChange={(e) => handleMemberChange(index, "occupation", e.target.value)} 
+/>
+
+<input 
+  type="text" 
+  placeholder="Department"
+  value={member.details?.department || ""} 
+  onChange={(e) => handleMemberChange(index, "details", { ...member.details, department: e.target.value })} 
+/>
+
+<input 
+  type="text" 
+  placeholder="Designation"
+  value={member.details?.designation || ""} 
+  onChange={(e) => handleMemberChange(index, "details", { ...member.details, designation: e.target.value })} 
+/>
+
+</td>
+<td>
+  <input 
+    type="text" 
+    value={member.hobbies || ""} 
+    onChange={(e) => handleMemberChange(index, "hobbies", e.target.value)} 
+  />
+</td>   
               </tr>
             ))}
           </tbody>
         </table>
-
-        {/* Snackbar Notification */}
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={3000}
-          onClose={() => setAlertOpen(false)}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <Alert onClose={() => setAlertOpen(false)} severity="success" variant="filled">
-            Selected House No: {selectedHouse}
+        <button  className="save-button" onClick={saveMemberData}>Save</button>
+        <Snackbar open={saveAlert} autoHideDuration={3000} onClose={() => setSaveAlert(false)}>
+          <Alert onClose={() => setSaveAlert(false)} severity="success">
+            Members data saved successfully!
           </Alert>
         </Snackbar>
-        
-      </div>
-      {/* Toggle Button for House Details Form */}
-      {/* <button  className="toggle-btn" onClick={() => setShowDetails((prev) => !prev)} disabled={!selectedHouse}>
-          {showDetails ? "Hide Schemes" : "Show Schemes"}
-        </button> */}
 
-<button className="toggle-btn" onClick={() => setShowDetails(!showDetails)} disabled={!selectedHouse}>
-  {showDetails ? "Hide Schemes" : "Show Schemes"}
-</button>
+        <button className="toggle-btn" onClick={() => setShowDetails(!showDetails)} disabled={!selectedHouse}>
+          {showDetails ? `Hide Schemes ` : `Show Schemes `}
+        </button>
 
+        {/* //(${selectedSchemes.length}) */}
 
-        {/* Conditionally Render House Details Form */}
+        {/* (${selectedSchemes.length}) */}
+
         {showDetails && <GuranteeSchemes houseNo={selectedHouse} />}
+      </div>
     </>
   );
 };

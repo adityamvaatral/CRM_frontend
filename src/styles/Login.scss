@@ -1,77 +1,95 @@
 .login-container {
-    width: 350px;
-    padding: 100px;
-    margin: 100px auto;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 128, 0, 0.2);
-    text-align: center;
-  
-    h2 {
-      color: green;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-  
-    .input-group {
-      text-align: left;
-      margin-bottom: 15px;
-  
-      label {
-        display: block;
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 5px;
-      }
-  
-      .input-field {
-        display: flex;
-        align-items: center;
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
-        background: #f9f9f9;
-  
-        .icon {
-          color: gray;
-          margin-right: 10px;
-        }
-  
-        input {
-          border: none;
-          background: transparent;
-          outline: none;
-          width: 100%;
-          font-size: 14px;
-        }
-      }
-    }
-  
-    .login-btn {
-      width: 100%;
-      padding: 10px;
-      background: blue;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-  
-      &:hover {
-        background: darkblue;
-      }
-    }
-  
-    .forgot-password {
+  width: 350px;
+  padding: 100px;
+  margin: 100px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 128, 0, 0.2);
+  text-align: center;
+
+  h2 {
+    color: green;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .input-group {
+    text-align: left;
+    margin-bottom: 15px;
+
+    label {
       display: block;
-      margin-top: 10px;
+      font-weight: bold;
       font-size: 14px;
-      color: blue;
-      text-decoration: none;
-  
-      &:hover {
-        text-decoration: underline;
+      margin-bottom: 5px;
+    }
+
+    .input-field {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background: #f9f9f9;
+      position: relative;
+
+      .icon {
+        color: gray;
+        margin-right: 10px;
+      }
+
+      input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      .eye-icon {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #555;
+
+        &:hover {
+          color: #000;
+        }
       }
     }
   }
-  
+
+  .login-btn {
+    width: 100%;
+    padding: 10px;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background: darkblue;
+    }
+  }
+
+  .forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: blue;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+}

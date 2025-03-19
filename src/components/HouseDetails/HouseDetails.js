@@ -6,38 +6,33 @@ import "../HouseDetails/HouseDetails.scss";
 import SelectDependents from "../HouseDetails/SelectDependents";
 import MemberForm from "../HouseDetails/MemberForm";
 import Header from "../Layout/Header";
-
 import Alert from '@mui/material/Alert';
 import Snackbar from "@mui/material/Snackbar";
 
-
 const HouseDetails = () => {
   const location = useLocation();
-  // const navigate = useNavigate();
- 
   const houseNo = location.state?.houseNo || "";
 
   const [dependents, setDependents] = useState([]);
-  const [head, setHead] = useState({ relation: "Head of the Family", name: "", age: "" });
-  const [spouse, setSpouse] = useState({ relation: "Spouse", name: "", age: "" });
-  const [father, setFather] = useState({ relation: "Father", name: "", age: "" });
-  const [mother, setMother] = useState({ relation: "Mother", name: "", age: "" });
+  const [head, setHead] = useState({ relation: "Head of the Family", name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "" });
+  const [spouse, setSpouse] = useState({ relation: "Spouse", name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "" });
+  const [father, setFather] = useState({ relation: "Father", name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "" });
+  const [mother, setMother] = useState({ relation: "Mother", name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "" });
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  // Common lists for hobbies and activities
   const hobbiesList = ["Reading", "Sports", "Music", "Dancing", "Painting"];
   const activitiesList = ["Football", "Cricket", "Swimming", "Chess", "Running"];
+
 
   useEffect(() => {
     const fetchHouseDetails = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/houses/${houseNo}`);
         const houseData = res.data;
-       
-        // setSelecthouseno(houseData.)
 
         setHead(houseData.members.find((m) => m.relation === "Head of the Family") || head);
         setSpouse(houseData.members.find((m) => m.relation === "Spouse") || spouse);
@@ -52,10 +47,27 @@ const HouseDetails = () => {
     fetchHouseDetails();
   }, [houseNo]);
 
+  useEffect(() => {
+    const validateForm = () => {
+      const members = [head, spouse, father, mother, ...dependents];
+      for (const member of members) {
+        if (!member.name || !member.age || !/^\d+$/.test(member.age) || member.age < 1 || member.age > 120) return false;
+        if (!/^\d{12}$/.test(member.aadhar)) return false;  // Aadhar validation
+        if (member.age > 18 && (!member.voterId || !/^[A-Za-z0-9]{10,}$/.test(member.voterId))) return false; // Voter ID validation
+        if (member.phone && !/^\d{10}$/.test(member.phone)) return false; // Phone validation
+        if (member.email && !/^\S+@\S+\.\S+$/.test(member.email)) return false; // Email validation
+        if (!member.occupation) return false; // Occupation required
+      }
+      return true;
+    };
+
+    setIsFormValid(validateForm());
+  }, [head, spouse, father, mother, dependents]);
+
   const handleDependentSelection = (relation) => {
     setDependents((prevDependents) => [
       ...prevDependents,
-      { relation, name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "", hobby: "", activity: "" }
+      { relation, name: "", age: "", aadhar: "", bpl: "", voterId: "", email: "", phone: "", occupation: "" }
     ]);
   };
 
@@ -64,6 +76,13 @@ const HouseDetails = () => {
   };
 
   const saveHouseDetails = async () => {
+    if (!isFormValid) {
+      setAlertMessage("Please fill in all required fields before saving.");
+      setAlertSeverity("error");
+      setAlertOpen(true);
+      return;
+    }
+
     try {
       const members = [head, spouse, father, mother, ...dependents];
       await axios.post("http://localhost:5000/api/houses", { houseNo, members });
@@ -78,93 +97,72 @@ const HouseDetails = () => {
     }
   };
 
-  // Navigate to View Schemes Page
-  // const handleViewSchemes = () => {
-  //   navigate(`/schemes/${houseNo}`);
-  // };
-
-  //Activity
-
-  
-
   return (
-    
     <>
-   
-    <Header/>
-    <div className="house-details">
-      <h2>House No - {houseNo}</h2>
+      <Header />
+      <div className="house-details">
+        <h2>House No - {houseNo}</h2>
 
-      <SelectDependents selectedDependents={dependents} handleDependentSelection={handleDependentSelection} />
+        <SelectDependents selectedDependents={dependents} handleDependentSelection={handleDependentSelection} />
 
-      <table className="house-details-table">
-        <thead>
-          <tr>
-            <th>Relation</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Aadhar Card No.</th>
-            <th>BPL Card No.</th>
-            <th>Voter ID</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Occupation & Details</th>
-            <th>Hobbies</th>
-            <th>Activity</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <MemberForm title="Head of the Family" member={head} setMember={setHead} hobbiesList={hobbiesList} activitiesList={activitiesList} />
-          <MemberForm title="Spouse" member={spouse} setMember={setSpouse} hobbiesList={hobbiesList} activitiesList={activitiesList} />
-          <MemberForm title="Father" member={father} setMember={setFather} hobbiesList={hobbiesList} activitiesList={activitiesList} />
-          <MemberForm title="Mother" member={mother} setMember={setMother} hobbiesList={hobbiesList} activitiesList={activitiesList} />
+        <table className="house-details-table">
+          <thead>
+            <tr>
+              <th>Relation</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Aadhar Card No.</th>
+              <th>BPL Card No.</th>
+              <th>Voter ID</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Occupation & Details</th>
+              <th>Hobbies</th>
+              <th>Activity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <MemberForm title="Head of the Family" member={head} setMember={setHead} hobbiesList={hobbiesList} activitiesList={activitiesList} />
+            <MemberForm title="Spouse" member={spouse} setMember={setSpouse} hobbiesList={hobbiesList} activitiesList={activitiesList} />
+            <MemberForm title="Father" member={father} setMember={setFather} hobbiesList={hobbiesList} activitiesList={activitiesList} />
+            <MemberForm title="Mother" member={mother} setMember={setMother} hobbiesList={hobbiesList} activitiesList={activitiesList} />
 
-          {dependents.map((dependent, index) => (
-            <MemberForm
-              key={index}
-              title={dependent.relation}
-              member={dependent}
-              setMember={(updatedMember) =>
-                setDependents((prevDependents) =>
-                  prevDependents.map((dep, i) => (i === index ? updatedMember : dep))
-                )
-              }
-              hobbiesList={hobbiesList}
-              activitiesList={activitiesList}
-              isMultiple={true}
-              
-              addDependent={handleDependentSelection}
-              deleteDependent={() => removeDependent(index)}
-            />
-          ))}
-        </tbody>
-      </table>
-      
-      <h3>Total Members: {4 + dependents.length}</h3>
+            {dependents.map((dependent, index) => (
+              <MemberForm
+                key={index}
+                title={dependent.relation}
+                member={dependent}
+                setMember={(updatedMember) =>
+                  setDependents((prevDependents) =>
+                    prevDependents.map((dep, i) => (i === index ? updatedMember : dep))
+                  )
+                }
+                hobbiesList={hobbiesList}
+                activitiesList={activitiesList}
+                isMultiple={true}
+                addDependent={handleDependentSelection}
+                deleteDependent={() => removeDependent(index)}
+              />
+            ))}
+          </tbody>
+        </table>
 
-      <div className="button-group">
-        <button className="save-button" onClick={saveHouseDetails}>Save House Details</button>
+        <h3>Total Members: {4 + dependents.length}</h3>
+
+        <div className="button-group">
+          <button className="save-button" onClick={saveHouseDetails} disabled={!isFormValid}>Save House Details</button>
+        </div>
+
         
-        {/* <button className="view-schemes-button" onClick={() => navigate(`/schemes/${houseNo}`)}>
-        View Schemes
-      </button> */}
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={4000}
-        onClose={() => setAlertOpen(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert sx={{
-    fontSize: "1.2rem",  // Increase text size
-    padding: "20px",     // Increase padding
-    width: "400px"       // Increase width
-  }} onClose={() => setAlertOpen(false)} severity={alertSeverity} variant="filled">
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+        
+
+        <Snackbar open={alertOpen} autoHideDuration={4000} onClose={() => setAlertOpen(false)}>
+          <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} variant="filled">
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </div>
-    </div>
     </>
   );
 };

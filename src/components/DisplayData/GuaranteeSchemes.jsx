@@ -2,10 +2,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../DisplayData/GuaranteeSchemes.scss"
+import AlertReuse from "../common/AlertReuse";
 
 const GuranteeSchemes = ({ houseNo }) => {
   const [members, setMembers] = useState([]);
   const [selectedSchemes, setSelectedSchemes] = useState({});
+
+   const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertSeverity, setAlertSeverity] = useState("");
 
   useEffect(() => {
     if (houseNo) {
@@ -57,10 +62,17 @@ const GuranteeSchemes = ({ houseNo }) => {
         members: updatedMembers,
       });
 
-      alert("Schemes Data saved successfully!");
+      // alert("Schemes Data saved successfully!");
+      setAlertMessage("Schemes Data saved successfully!");
+      setAlertSeverity("success")
+      setAlertOpen(true);
+
     } catch (error) {
-      console.error("Error saving Schemes details:", error);
+      // console.error("Error saving Schemes details:", error);
       alert("Failed to save data.");
+      setAlertMessage("Failed to save data.");
+      setAlertSeverity("error")
+      setAlertOpen(true);
     }
   };
 
@@ -105,6 +117,8 @@ const GuranteeSchemes = ({ houseNo }) => {
       <button className="submit-btn" onClick={handleSubmit}>
         Save Schemes
       </button>
+      
+      <AlertReuse open={alertOpen} handleClose={() => setAlertOpen(false)} severity={alertSeverity} message={alertMessage} />
     </div>
   );
 };

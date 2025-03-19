@@ -16,13 +16,11 @@ function MainRouter() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/display" element={<HouseSelection />} />
+        <Route path="/view" element={<HouseSelection />} />
         <Route path="/schemes" element={<GuranteeSchemes />} />
-        {/* <Route path="/formcomponent" element={<FormComponent />} /> */}
-        
         <Route path="/register" element={<SelectionForm />} />
-        <Route path="/assembly" element={<HouseDetails />} />
-        {/* <Route path="/schemes/:houseNo" element={<GuaranteeSchemes />} /> New Route */}
+        <Route path="/housedetails" element={<HouseDetails />} />
+
       </Routes>
     </Router>
   );
