@@ -10,7 +10,9 @@ const SelectionForm = () => {
   const [wards, setWards] = useState([]);
   const [booths, setBooths] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [houses, setHouses] = useState([]);
+  const [houses, setHouses] = useState();
+  console.log("houses",houses)
+
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -23,6 +25,8 @@ const SelectionForm = () => {
   const [houseNo, setHouseNo] = useState("");
 
   const navigate = useNavigate();
+
+  // Added depdences to useEffect (19/3/2025)
 
   useEffect(() => {
     const fetchSelection = async () => {
@@ -52,7 +56,7 @@ const SelectionForm = () => {
         .then((res) => setBooths([...new Set(res.data.map((item) => item.booth))]))
         .catch((error) => console.error("Error fetching booths:", error));
     }
-  }, [ward]);
+  }, [assembly, ward,]);
 
   useEffect(() => {
     if (booth) {
@@ -61,7 +65,7 @@ const SelectionForm = () => {
         .then((res) => setStreets([...new Set(res.data.map((item) => item.streetNo))]))
         .catch((error) => console.error("Error fetching streets:", error));
     }
-  }, [booth]);
+  }, [assembly, ward, booth]);
 
   useEffect(() => {
     if (streetNo) {
@@ -70,7 +74,7 @@ const SelectionForm = () => {
         .then((res) => setHouses([...new Set(res.data.map((item) => item.houseNo))]))
         .catch((error) => console.error("Error fetching houses:", error));
     }
-  }, [streetNo]);
+  }, [assembly, ward, booth, streetNo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
